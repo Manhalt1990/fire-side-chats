@@ -18,13 +18,23 @@ class ChatInput extends React.Component {
             PropTypes.shape({
                 userName: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
-                timestamp: PropTypes.string.isRequired
+                timestamp: PropTypes.string.isRequired,
+                likes: PropTypes.arrayOf(PropTypes.string)
             })
         ),
         writeMessages: PropTypes.func.isRequired
     }
 
     handleOnClick = () => {
+        if(this.state.messageText.charAt(0) === '/'){
+            console.log("handle actions: " 
+            + this.state.messageText.substr(1, this.state.messageText.length - 1));
+        } else {
+            this.sendMessage();
+        }
+    }
+
+    sendMessage = () => {
         var message = {
             'userName': this.props.currentUser,
             'text': this.state.messageText,

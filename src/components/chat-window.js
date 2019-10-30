@@ -14,7 +14,8 @@ class ChatWindow extends React.Component {
             PropTypes.shape({
                 userName: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
-                timestamp: PropTypes.string.isRequired
+                timestamp: PropTypes.string.isRequired,
+                likes: PropTypes.arrayOf(PropTypes.string)
             })
         ),
         writeMessages: PropTypes.func.isRequired

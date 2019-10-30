@@ -11,22 +11,23 @@ class Messages extends React.Component {
             PropTypes.shape({
                 userName: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
-                timestamp: PropTypes.string.isRequired
+                timestamp: PropTypes.string.isRequired,
+                likes: PropTypes.arrayOf(PropTypes.string)
             })
         )
     }
 
     scrollToBottom = () => {
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-      }
+    }
       
-      componentDidMount() {
+    componentDidMount() {
         this.scrollToBottom();
-      }
+    }
       
-      componentDidUpdate() {
+    componentDidUpdate() {
         this.scrollToBottom();
-      }
+    }
 
     createMessages = (messages) => messages.map((message, i) => {
         return (

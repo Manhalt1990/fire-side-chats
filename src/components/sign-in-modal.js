@@ -13,6 +13,7 @@ class SignInModal extends React.Component {
 
     constructor(props) {
         super(props);
+        this.userNameInputRef = React.createRef();
         this.state = { show: props.isShow, userName: "" };
       }
 
@@ -21,6 +22,17 @@ class SignInModal extends React.Component {
     handleOnClick = () => {
         this.props.onSaveChanges(this.state.userName);
         this.handleClose();
+    }
+
+    handleKeyPress(target, handleOnClick) {
+        if(target.charCode === 13 && target.shiftKey === false){
+            target.preventDefault();
+            handleOnClick();    
+        } 
+    }
+
+    componentDidMount() {
+        this.userNameInputRef.current.focus();
     }
 
     render() {
@@ -36,7 +48,12 @@ class SignInModal extends React.Component {
                             <Form.Label>
                             Please create a username for chatting!
                             </Form.Label>
-                            <Form.Control onChange={e => this.setState({userName: e.target.value})} as="input" placeholder="UserName" />
+                            <Form.Control
+                                onKeyPress={(e) => this.handleKeyPress(e, this.handleOnClick)}
+                                onChange={e => this.setState({userName: e.target.value})}
+                                ref={this.userNameInputRef}
+                                as="input" 
+                                placeholder="Username" />
                         </Form.Group>
                     </Form>
                 </Modal.Body>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
+import Octicon, { Heart } from '@primer/octicons-react'
 
 class Message extends React.Component {
 
@@ -10,7 +11,8 @@ class Message extends React.Component {
         isCurrentUser: PropTypes.bool.isRequired,
         userName: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
-        timestamp: PropTypes.string.isRequired
+        timestamp: PropTypes.string.isRequired,
+        likes: PropTypes.arrayOf(PropTypes.string)
     }
 
     getCardType = (isCurrentUser) => isCurrentUser ? "info" : "secondary"
@@ -32,6 +34,9 @@ class Message extends React.Component {
                                 {this.props.text}
                             </Card.Text>
                         </Card.Body>
+                        <Card.Footer>
+                            <Octicon icon={Heart}/>
+                        </Card.Footer>
                     </Card>
                 </Col>
             </Row>
