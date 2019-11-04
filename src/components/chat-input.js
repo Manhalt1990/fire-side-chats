@@ -14,14 +14,6 @@ class ChatInput extends React.Component {
 
     static propTypes = {
         currentUser: PropTypes.string.isRequired,
-        messages: PropTypes.arrayOf(
-            PropTypes.shape({
-                userName: PropTypes.string.isRequired,
-                text: PropTypes.string.isRequired,
-                timestamp: PropTypes.string.isRequired,
-                likes: PropTypes.arrayOf(PropTypes.string)
-            })
-        ),
         writeMessages: PropTypes.func.isRequired
     }
 
@@ -40,10 +32,7 @@ class ChatInput extends React.Component {
             'text': this.state.messageText,
             'timestamp': Moment().format()
         }
-
-        var messages = this.props.messages;
-        messages.push(message);
-        this.props.writeMessages(messages);
+        this.props.writeMessages(message);
         this.setState({messageText: ""});
     }
 

@@ -10,15 +10,16 @@ class ChatWindow extends React.Component {
 
     static propTypes = {
         currentUser: PropTypes.string.isRequired,
-        messages: PropTypes.arrayOf(
+        messages: PropTypes.objectOf(
             PropTypes.shape({
                 userName: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
                 timestamp: PropTypes.string.isRequired,
-                likes: PropTypes.arrayOf(PropTypes.string)
+                likes: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string))
             })
         ),
-        writeMessages: PropTypes.func.isRequired
+        writeMessages: PropTypes.func.isRequired,
+        writeLike: PropTypes.func.isRequired
     }
 
     render() {
@@ -38,13 +39,13 @@ class ChatWindow extends React.Component {
                     <Messages
                         currentUser={this.props.currentUser}
                         messages={this.props.messages}
+                        writeLike={this.props.writeLike}
                     />
                 </div>}
                 <Row className="fixed-bottom">
                     <Col>
                         <ChatInput
                            currentUser={this.props.currentUser}
-                           messages={this.props.messages}
                            writeMessages={this.props.writeMessages} />
                     </Col>
                 </Row>
