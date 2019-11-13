@@ -8,17 +8,19 @@ import MessageLike from './message-like'
 class Message extends React.Component {
 
     static propTypes = {
+        messageId: PropTypes.string.isRequired,
         currentUser: PropTypes.string.isRequired,
-        messageKey: PropTypes.string.isRequired,
         userName: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
-        timestamp: PropTypes.string.isRequired,
-        likes: PropTypes.arrayOf(PropTypes.string),
+        timestamp: PropTypes.object.isRequired,
+        likes: PropTypes.arrayOf(PropTypes.shape({
+            username: PropTypes.string
+        })),
         writeLike: PropTypes.func.isRequired
     }
 
     render() {
-        const { currentUser, userName, likes, writeLike, messageKey } = this.props;
+        const { messageId, currentUser, userName, likes, writeLike } = this.props;
         const isCurrentUser = userName === currentUser;
         const messageFloatPosition = isCurrentUser ? "float-right" : "float-left";
         const cardType = isCurrentUser ? "info" : "secondary";
@@ -33,12 +35,12 @@ class Message extends React.Component {
                         <Card.Body>
                             <Card.Title>
                                 <div>{this.props.userName}</div>
-                                <MessageLike 
+                                {<MessageLike 
+                                    messageId={messageId}
                                     userName={userName}
                                     currentUser={currentUser}
-                                    messageKey={messageKey}
                                     likes={likes}
-                                    writeLike={writeLike}/>
+                                    writeLike={writeLike}/>}
                             </Card.Title>
                             <Card.Text>
                                 {this.props.text}

@@ -7,18 +7,22 @@ import Octicon, { Heart } from '@primer/octicons-react'
 class MessageLike extends React.Component {
 
     static propTypes = {
+        messageId: PropTypes.string.isRequired,
         currentUser: PropTypes.string.isRequired,
-        messageKey: PropTypes.string.isRequired,
         userName: PropTypes.string.isRequired,
-        likes: PropTypes.arrayOf(PropTypes.string),
+        likes: PropTypes.arrayOf(PropTypes.shape(
+            {
+                username: PropTypes.string.isRequired
+            }
+        )),
         writeLike: PropTypes.func.isRequired
     }
 
     handleOnClick = () => {
-        const {currentUser, writeLike, likes, userName, messageKey} = this.props;
+        const {currentUser, writeLike, likes, userName, messageId} = this.props;
         let isCurrentUser = userName === currentUser;
-        if(!isCurrentUser && (likes && !likes.includes(userName))){
-            writeLike(messageKey, currentUser);
+        if(!isCurrentUser && (likes && !likes.includes({username: userName}))){
+            writeLike(messageId, currentUser);
             console.log("Add Like");
         }
     }
@@ -30,7 +34,7 @@ class MessageLike extends React.Component {
 
     renderOverlay = (likes) => {
         const tooltip = (<Tooltip>
-                            {likes.join(", ")}
+                            {likes.map(like => like.username).join(", ")}
                         </Tooltip>);
         return (
             <OverlayTrigger

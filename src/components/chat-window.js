@@ -10,12 +10,17 @@ class ChatWindow extends React.Component {
 
     static propTypes = {
         currentUser: PropTypes.string.isRequired,
-        messages: PropTypes.objectOf(
+        groupKey: PropTypes.string.isRequired,
+        messages: PropTypes.arrayOf(
             PropTypes.shape({
-                userName: PropTypes.string.isRequired,
+                username: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
-                timestamp: PropTypes.string.isRequired,
-                likes: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string))
+                timestamp: PropTypes.object.isRequired,
+                likes: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        username: PropTypes.string
+                    }
+                ))
             })
         ),
         writeMessages: PropTypes.func.isRequired,
@@ -24,32 +29,37 @@ class ChatWindow extends React.Component {
 
     render() {
         return (
-            <div id="chatWindow">
+            <>
                 <Row>
                     <Col>
-                        <Navbar bg="dark" variant="dark" fixed="top" className="justify-content-center">
+                        <Navbar style={{marginLeft:"25%"}} bg="dark" variant="dark" fixed="top" className="justify-content-center">
                             <Navbar.Brand>
                             Fire Side Chats
                             </Navbar.Brand>
                         </Navbar>
                     </Col>
                 </Row>
-                {this.props.currentUser && 
-                <div className="messagesList">
-                    <Messages
-                        currentUser={this.props.currentUser}
-                        messages={this.props.messages}
-                        writeLike={this.props.writeLike}
-                    />
-                </div>}
-                <Row className="fixed-bottom">
+                <Row>
                     <Col>
-                        <ChatInput
-                           currentUser={this.props.currentUser}
-                           writeMessages={this.props.writeMessages} />
+                    {this.props.currentUser && 
+                        <div className="messagesList">
+                            <Messages
+                                currentUser={this.props.currentUser}
+                                messages={this.props.messages}
+                                writeLike={this.props.writeLike}
+                            />
+                        </div>}
                     </Col>
                 </Row>
-            </div>
+                <Row style={{marginLeft:"25%"}} className="absolute-bottom">
+                    <Col>
+                        <ChatInput
+                            groupKey={this.props.groupKey}
+                            currentUser={this.props.currentUser}
+                            writeMessages={this.props.writeMessages} />
+                    </Col>
+                </Row>
+            </>
         );
     }
 }

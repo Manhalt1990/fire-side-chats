@@ -6,12 +6,28 @@ textarea {
   margin-bottom: 5rem;
   margin-top: 4rem;
   z-index: -10; 
-  top: 0px; 
-  bottom: 0px; 
-  position: absolute; 
+  top: 0; 
+  bottom: 0; 
   width: 100%; 
   overflow-y: auto; 
   overflow-x: hidden;
   padding-right: 1rem;
   padding-left: 1rem
+}
+
+.chatGroups {
+  color: white;
+
+}
+
+.absolute-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+  z-index: 1030;
+}
+
+.chatWindow .col {
+  padding: 0;
 }

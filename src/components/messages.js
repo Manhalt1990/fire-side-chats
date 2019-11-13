@@ -7,12 +7,17 @@ class Messages extends React.Component {
 
     static propTypes = {
         currentUser: PropTypes.string.isRequired,
-        messages: PropTypes.objectOf(
+        messages: PropTypes.arrayOf(
             PropTypes.shape({
-                userName: PropTypes.string.isRequired,
+                id: PropTypes.string.isRequired,
+                username: PropTypes.string.isRequired,
                 text: PropTypes.string.isRequired,
-                timestamp: PropTypes.string.isRequired,
-                likes: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string))
+                timestamp: PropTypes.object.isRequired,
+                likes: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        username: PropTypes.string
+                    })
+                )
             })
         ),
         writeLike: PropTypes.func.isRequired
@@ -30,15 +35,14 @@ class Messages extends React.Component {
         this.scrollToBottom();
     }
 
-    createMessages = (messages) => Object.keys(messages).map((messageKey, i) => {
-        let message = messages[messageKey];
-        let likes = (message.likes && Object.values(message.likes).map(like => like.userName)) || [];
+    createMessages = (messages) => messages.map((message, i) => {
+        let likes = message.likes || [];
         return (
             <Message
                 key={i}
-                messageKey={messageKey}
+                messageId={message.id}
                 currentUser={this.props.currentUser}
-                userName={message.userName}
+                userName={message.username}
                 text={message.text}
                 timestamp={message.timestamp}
                 likes={likes}

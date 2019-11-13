@@ -4,6 +4,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import Moment from 'moment'
+import Firebase from 'firebase'
 
 class ChatInput extends React.Component {
 
@@ -14,7 +15,8 @@ class ChatInput extends React.Component {
 
     static propTypes = {
         currentUser: PropTypes.string.isRequired,
-        writeMessages: PropTypes.func.isRequired
+        writeMessages: PropTypes.func.isRequired,
+        groupKey: PropTypes.string.isRequired
     }
 
     handleOnClick = () => {
@@ -28,9 +30,9 @@ class ChatInput extends React.Component {
 
     sendMessage = () => {
         var message = {
-            'userName': this.props.currentUser,
+            'username': this.props.currentUser,
             'text': this.state.messageText,
-            'timestamp': Moment().format()
+            'timestamp': Firebase.firestore.Timestamp.fromDate(Moment().toDate())
         }
         this.props.writeMessages(message);
         this.setState({messageText: ""});
@@ -52,7 +54,7 @@ class ChatInput extends React.Component {
                     onChange={e => this.setState({messageText: e.target.value})} 
                     as="textarea" 
                     aria-label="With textarea" 
-                    stlye={{resize: "none" }}/>
+                    style={{resize: "none" }}/>
                 <Button onClick={this.handleOnClick} variant="primary">Send</Button>
             </InputGroup>
         );

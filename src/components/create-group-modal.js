@@ -4,24 +4,24 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 
-class SignInModal extends React.Component {
+class CreateGroupModal extends React.Component {
 
     static propTypes = {
         isShow: PropTypes.bool.isRequired,
-        onSaveChanges: PropTypes.func.isRequired
+        onSaveChanges: PropTypes.func.isRequired,
+        handleOnClose: PropTypes.func.isRequired
     }
 
     constructor(props) {
         super(props);
-        this.userNameInputRef = React.createRef();
-        this.state = { show: props.isShow, userName: "" };
+        this.groupNameInputRef = React.createRef();
+        this.state = { groupName: "" };
       }
 
-    handleClose = () => this.setState({show: false});
-
     handleOnClick = () => {
-        this.props.onSaveChanges(this.state.userName);
-        this.handleClose();
+        const { handleOnClose, onSaveChanges} = this.props;
+        onSaveChanges(this.state.groupName);
+        handleOnClose();
     }
 
     handleKeyPress(target, handleOnClick) {
@@ -32,28 +32,30 @@ class SignInModal extends React.Component {
     }
 
     componentDidMount() {
-        this.userNameInputRef.current.focus();
+        if(this.groupNameInputRef.current){
+            this.groupNameInputRef.current.focus();
+        }
     }
 
     render() {
         return (
-            <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal show={this.props.isShow} onHide={this.props.handleOnClose}>
                 <Modal.Header>
-                    <Modal.Title>Create Username</Modal.Title>
+                    <Modal.Title>Create Group</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
                     <Form>
                         <Form.Group controlId="formPlaintextEmail">
                             <Form.Label>
-                            Please create a username for chatting!
+                            Please create a group name for chatting!
                             </Form.Label>
                             <Form.Control
                                 onKeyPress={(e) => this.handleKeyPress(e, this.handleOnClick)}
-                                onChange={e => this.setState({userName: e.target.value})}
-                                ref={this.userNameInputRef}
+                                onChange={e => this.setState({groupName: e.target.value})}
+                                ref={this.groupNameInputRef}
                                 as="input" 
-                                placeholder="Username" />
+                                placeholder="Group Name" />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -66,4 +68,4 @@ class SignInModal extends React.Component {
     }
 }
 
-export default SignInModal
+export default CreateGroupModal
