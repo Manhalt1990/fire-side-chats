@@ -4,8 +4,19 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import MessageLike from './message-like'
+import Moment from 'moment'
 
 class Message extends React.Component {
+
+    constructor(props){
+        super(props);
+        const messageTime = Moment(this.props.timestamp.toDate());
+        const currentTime = Moment();
+        const duration  = Moment.duration(currentTime.diff(messageTime));
+        this.state = {
+          duration: duration
+        }
+      }
 
     static propTypes = {
         messageId: PropTypes.string.isRequired,
@@ -17,6 +28,11 @@ class Message extends React.Component {
             username: PropTypes.string
         })),
         writeLike: PropTypes.func.isRequired
+    }
+
+    getDeltaTime = () => {
+        const { duration } = this.state;
+        return duration.humanize() + " ago";
     }
 
     render() {
@@ -45,6 +61,9 @@ class Message extends React.Component {
                             <Card.Text>
                                 {this.props.text}
                             </Card.Text>
+                            <div style={{fontSize: '0.8rem', fontStlye: 'italic'}}>
+                                {this.getDeltaTime()}
+                            </div>
                         </Card.Body>
                     </Card>
                 </Col>

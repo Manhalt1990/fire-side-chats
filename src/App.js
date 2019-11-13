@@ -42,7 +42,7 @@ class App extends React.Component {
       .doc(key)
       .collection('likes')
       .doc(userName)
-      .add({username: userName});
+      .set({username: userName});
   }
 
   writeAddNewGroup = (group) => {
